@@ -1,3 +1,4 @@
+// Action Cable
 #include <ESP8266WiFi.h>
 #include <WebSocketsClient.h>
 #include <ArduinoJson.h>
@@ -10,8 +11,8 @@ int greenpin = D2;
 int bluepin = D4;
 
 //// Connecting to the internet
-const char* ssid = "*****";
-const char* password = "*****";
+const char* ssid = "NEXT Academy Coding School";
+const char* password = "Coding@NEXT";
 
 // Setting up the websocket client
 WebSocketsClient webSocket;
@@ -46,8 +47,9 @@ void setup() {
 
   // When in development, replacement first argument in webSocket.begin() function with your machine's IP address for your Wi-Fi network. Make sure to run your open your local server up to other devices by running `rails s -b 0.0.0.0` so your arduino can connect in.
 
-  // When in development, replace the below with your production URL and port. E.g. webSocket.begin("nodemcu-led-lights.herokuapp.com", 80, "/cable")
-  webSocket.begin("*****",3000, "/cable" );
+  // When in production, replace the below with your production URL and port. E.g. webSocket.begin("nodemcu-led-lights.herokuapp.com", 80, "/cable")
+  webSocket.begin("192.168.1.93",3000, "/cable" );
+//  webSocket.begin("arduino-actioncable-led.herokuapp.com",80, "/cable" );
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(5);
 
@@ -68,9 +70,13 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length) {
       webSocket.setExtraHeaders("Content-Type: application/json");
       // The Arduino is currently configured to join one channel. In future, if you would like to expand to include many times of smart-devices, you could expand your channels and dynamically include the channel name in the below string depending on the nature of your device. 
       webSocket.sendTXT("{\"command\":\"subscribe\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
+      webSocket.sendTXT("{\"command\":\"message\",\"data\":\"{\\\"mac\\\":\\\"" + WiFi.macAddress() + "\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
+//      webSocket.sendTXT("{\"command\":\"message\",\"data\":\"{\\\"mac\\\":\\\"mac_address\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
+
       Serial.printf("[WSc] Connected to url: %s\n", payload);
       break;
     case WStype_TEXT:
+      // webSocket.sendTXT("{\"command\":\"message\",\"data\":\"{\\\"mac\\\":\\\"mac_address\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
       Serial.printf("[WSc] Received text: %s\n", payload);
       DynamicJsonBuffer jBuffer;
       JsonObject &root = jBuffer.parseObject(payload);

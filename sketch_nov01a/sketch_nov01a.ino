@@ -75,7 +75,6 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length) {
       Serial.printf("[WSc] Connected to url: %s\n", payload);
       break;
     case WStype_TEXT:
-      // webSocket.sendTXT("{\"command\":\"message\",\"data\":\"{\\\"mac\\\":\\\"mac_address\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
       Serial.printf("[WSc] Received text: %s\n", payload);
       DynamicJsonBuffer jBuffer;
       JsonObject &root = jBuffer.parseObject(payload);

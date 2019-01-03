@@ -70,8 +70,7 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length) {
       webSocket.setExtraHeaders("Content-Type: application/json");
       // The Arduino is currently configured to join one channel. In future, if you would like to expand to include many times of smart-devices, you could expand your channels and dynamically include the channel name in the below string depending on the nature of your device. 
       webSocket.sendTXT("{\"command\":\"subscribe\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
-      webSocket.sendTXT("{\"command\":\"message\",\"data\":\"{\\\"mac\\\":\\\"" + WiFi.macAddress() + "\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
-//      webSocket.sendTXT("{\"command\":\"message\",\"data\":\"{\\\"mac\\\":\\\"mac_address\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
+      webSocket.sendTXT("{\"command\":\"message\",\"data\":\"{\\\"action\\\": \\\"identify_device\\\", \\\"mac\\\":\\\"" + WiFi.macAddress() + "\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"ArduinoChannel\\\"}\"}");
 
       Serial.printf("[WSc] Connected to url: %s\n", payload);
       break;

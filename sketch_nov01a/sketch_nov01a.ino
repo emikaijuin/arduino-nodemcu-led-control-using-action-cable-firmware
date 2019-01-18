@@ -1,18 +1,15 @@
-// Action Cable
 #include <ESP8266WiFi.h>
 #include <WebSocketsClient.h>
 #include <ArduinoJson.h>
 #include <EEPROM.h>
-
+#include <DNSServer.h>            //Local DNS Server used for redirecting all requests to the configuration portal
+#include <ESP8266WebServer.h>     //Local WebServer used to serve the configuration portal
+#include <WiFiManager.h>          //https://github.com/tzapu/WiFiManager WiFi Configuration Magic
 
 // Initialize pins
 int redpin = D0;
 int greenpin = D2;
 int bluepin = D4;
-
-//// Connecting to the internet
-const char* ssid = "********";
-const char* password = "********";
 
 // Setting up the websocket client
 WebSocketsClient webSocket;
@@ -21,25 +18,17 @@ WebSocketsClient webSocket;
 WiFiClient client;
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(115200);
   
   pinMode(redpin, OUTPUT);
   pinMode(bluepin, OUTPUT);
   pinMode(greenpin, OUTPUT);
+
+  // Initialize WiFi Manager
+  WiFiManager wifiManager;
+  // Initialize access point network without password
+  wifiManager.autoConnect("LightNode");
   
-
-  delay(10);
-  WiFi.begin(ssid, password);
-  while(WiFi.status()!= WL_CONNECTED) {
-    Serial.print(".");
-    delay(500);  
-  }
-  Serial.println("");
-  Serial.print("IP Address: ");
-  Serial.print(WiFi.localIP() + "\n");
-  Serial.print(WiFi.macAddress() + "\n");
-
   // Initializing the WS2812B communication
   setRgb(255,80,90);
 

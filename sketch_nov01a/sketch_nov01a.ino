@@ -11,8 +11,8 @@ int greenpin = D2;
 int bluepin = D4;
 
 //// Connecting to the internet
-const char* ssid = "NEXT Academy Coding School";
-const char* password = "Coding@NEXT";
+const char* ssid = "********";
+const char* password = "********";
 
 // Setting up the websocket client
 WebSocketsClient webSocket;

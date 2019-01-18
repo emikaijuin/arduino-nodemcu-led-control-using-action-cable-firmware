@@ -48,7 +48,7 @@ void setup() {
   // When in development, replacement first argument in webSocket.begin() function with your machine's IP address for your Wi-Fi network. Make sure to run your open your local server up to other devices by running `rails s -b 0.0.0.0` so your arduino can connect in.
 
   // When in production, replace the below with your production URL and port. E.g. webSocket.begin("nodemcu-led-lights.herokuapp.com", 80, "/cable")
-  webSocket.begin("192.168.1.93",3000, "/cable" );
+  webSocket.begin("********",3000, "/cable" );
 //  webSocket.begin("arduino-actioncable-led.herokuapp.com",80, "/cable" );
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(5);
